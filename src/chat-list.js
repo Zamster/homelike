@@ -6,7 +6,7 @@ class ChatList extends React.Component {
     return (
       <div className="chat-list">
         <div className="app-name">
-          <h3>Foobar</h3>
+          <h3>test</h3>
         </div>
 
         <Channels />

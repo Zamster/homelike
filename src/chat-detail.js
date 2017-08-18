@@ -5,10 +5,11 @@ import Input from './input';
 class ChatDetail extends React.Component {
   render() {
     return (
-      <div className="container-fluid chat-detail">
-        <MessageList/>
-        
-        <Input />
+      <div className="chat-detail">
+        <div className="container-fluid">
+          <MessageList/>        
+          <Input />
+        </div>
       </div>
     );
   }

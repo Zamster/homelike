@@ -3,11 +3,11 @@ var app = express();
 var path = require('path');
 
 // static folder
-app.use(express.static(path.join(__dirname, '/htdocs')))
+app.use(express.static(path.join(__dirname, '../htdocs')))
 
 // index
 app.get('/', function (req, res) {
-    res.sendFile(path.join(__dirname, 'htdocs/index.html'));
+    res.sendFile(path.join(__dirname, '../htdocs/index.html'));
 })
 
 app.listen(5000, function () {
