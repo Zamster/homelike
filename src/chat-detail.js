@@ -1,12 +1,12 @@
 import React from 'react';
-import Messages from './messages';
+import MessageList from './message-list';
 import Input from './input';
 
 class ChatDetail extends React.Component {
   render() {
     return (
-      <div className="chat-detail">
-        <Messages/>
+      <div className="container-fluid chat-detail">
+        <MessageList/>
         
         <Input />
       </div>

@@ -57,3 +57,11 @@ ul.channels li a:hover {
     top: 0;
     right: 0;
 }
+
+.chat-input {
+    background: #f5f5f5;
+    padding: 20px;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
