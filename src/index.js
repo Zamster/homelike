@@ -6,10 +6,10 @@ import ChatDetail from './chat-detail';
 class App extends React.Component {
   render() {
     return (
-        <div>
-          <ChatList/>
-          <ChatDetail/>
-        </div>
+      <div>
+        <ChatList />
+        <ChatDetail />
+      </div>
     );
   }
 }

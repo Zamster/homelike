@@ -1,11 +1,15 @@
 import React from 'react';
+import Messages from './messages';
+import Input from './input';
 
 class ChatDetail extends React.Component {
   render() {
     return (
-        <div>
-            Detail
-        </div>
+      <div className="chat-detail">
+        <Messages/>
+        
+        <Input />
+      </div>
     );
   }
 }
