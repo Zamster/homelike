@@ -1,15 +1,23 @@
-import React from 'react';
+import React from 'react'
 
 class Channels extends React.Component {
+
+  handleClick(id) {
+    this.props.handleSelected(id)
+  }
+
   render() {
     return (
       <ul className="list-unstyled channels">
-        <li><a href="#">Test</a></li>
-        <li><a href="#">Test</a></li>
-        <li><a href="#">Test</a></li>
-        <li><a href="#">Test</a></li>
+      {
+        this.props.channels.map((channel) =>
+          <li key={channel.id}>
+              <a href="#" className={channel.id == this.props.selected ? "selected" : ""}selected onClick={()=>this.handleClick(channel.id)} > {channel.name} </a>
+          </li>
+        )
+      }
       </ul>
-    );
+    )
   }
 }
 
