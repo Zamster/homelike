@@ -9,13 +9,13 @@ class Channels extends React.Component {
   render() {
     return (
       <ul className="list-unstyled channels">
-      {
-        this.props.channels.map((channel) =>
-          <li key={channel.id}>
-              <a href="#" className={channel.id == this.props.selected ? "selected" : ""}selected onClick={()=>this.handleClick(channel.id)} > {channel.name} </a>
-          </li>
-        )
-      }
+        {
+          this.props.channels.map((channel) =>
+            <li key={channel.id}>
+              <a href="#" className={channel.id == this.props.selected ? "selected" : ""} selected onClick={() => this.handleClick(channel.id)} > {channel.name} </a>
+            </li>
+          )
+        }
       </ul>
     )
   }

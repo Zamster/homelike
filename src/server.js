@@ -1,6 +1,24 @@
 var express = require('express');
 var app = express();
 var path = require('path');
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+var uuid = require('uuid');
+
+var messages = [];
+for (var i = 0; i < 10; i++) {
+    messages[i] = []
+}
+
+var channels = [];
+for (var i = 1; i < 10; i++) {
+    channels.push(
+        {
+            'id' : i,
+            'name' : 'channel' + i
+        }
+    );
+}
 
 // static folder
 app.use(express.static(path.join(__dirname, '../htdocs')))
@@ -12,39 +30,41 @@ app.get('/', function (req, res) {
 
 // channels
 app.get('/channels', function (req, res) {
-
-    var channels = [];
-    for (var i = 0; i < 10; i++) {
-        channels.push(
-            {
-                'id' : i,
-                'name' : 'channel' + i
-            }
-        );
-    }
-
     res.json(channels);
 })
 
 
-// channels
+// messages
 app.get('/messages', function (req, res) {
-
-    var messages = [];
-    for (var i = 0; i < 10; i++) {
-        messages.push(
-            {
-                'id' : i,
-                'text' : 'asdasdasdasdasdasdasdasdasdasdasdasdasd' + i,
-                'ts' : i
-            }
-        );
-    }
-
-    res.json(messages);
+    var channel = req.query.id;
+    res.json(messages[channel]);
 })
 
+io.on('connection', function (socket) {
+    socket.on('subscribe', function(channel) { 
+        socket.join(channel); 
+    })
 
-app.listen(5000, function () {
-    console.log('Example app listening on port 5000')
-})
+    socket.on('unsubscribe', function(channel) {  
+        socket.leave(channel); 
+    })
+
+    socket.on('message', function (obj) {
+        var channel = obj.channel
+
+        msg = {
+            id : uuid.v1(),
+            message : obj.message,
+            ts : new Date().toUTCString()
+        }
+
+        messages[channel].push(msg);
+
+        io.sockets.in(channel).emit('message', msg);
+    })
+});
+
+
+http.listen(3000, function(){
+  console.log('listening on *:3000');
+});
