@@ -24,9 +24,7 @@ class App extends React.Component {
   }
 
   componentDidMount() {
-    axios.get('/channels').then(res => {
-      this.setState({ channels: res.data })
-    })
+
   }
 
   handleSelected(id) {
@@ -43,6 +41,15 @@ class App extends React.Component {
   loginDidClick(e) {
     e.preventDefault();
     this.setState({ login: true })
+
+    axios.get('/channels', {
+      params: {
+        email: this.state.email
+      }
+    }).then(res => {
+      this.setState({ channels: res.data })
+    })
+
   }
 
   render() {
@@ -65,7 +72,9 @@ class App extends React.Component {
               <h4>{this.state.email}</h4>
             </div>
 
-            <Channels channels={this.state.channels} selected={this.state.selected} handleSelected={this.handleSelected} />
+            <Channels channels={this.state.channels} selected={this.state.selected} handleSelected={this.handleSelected} email={this.state.email}/>
+
+            <hr/>
           </div>
 
           <div className="chat-detail">

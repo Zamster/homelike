@@ -8,16 +8,17 @@ var multer  = require('multer')
 var upload = multer({ dest: './htdocs/static/uploads/' })
 
 var messages = [];
-for (var i = 0; i < 10; i++) {
+for (var i = 0; i < 5; i++) {
     messages[i] = []
 }
 
 var channels = [];
-for (var i = 1; i < 10; i++) {
+for (var i = 0; i < 5; i++) {
     channels.push(
         {
             'id' : i,
-            'name' : 'channel' + i
+            'name' : 'channel' + i,
+            'private': false
         }
     );
 }
@@ -32,7 +33,21 @@ app.get('/', function (req, res) {
 
 // channels
 app.get('/channels', function (req, res) {
-    res.json(channels);
+    data = []
+    var email = req.query.email;
+
+    for (var i = 0; i < channels.length; i++) {
+        if (channels[i].private == false) {
+            data.push(channels[i])
+        } else {
+            if (channels[i].users[0] == email || channels[i].users[1] == email) {
+                channels[i].name = channels[i].users[0] == email ? channels[i].users[1] : channels[i].users[0]
+                data.push(channels[i])                
+            }
+        }
+
+    }
+    res.json(data);
 })
 
 
@@ -47,6 +62,21 @@ app.post('/upload', upload.single('image'), function (req, res, next) {
     res.json(url);
 })
 
+app.get('/pm', function (req, res) {
+    var email = req.query.email1;
+    var email2 = req.query.email2;
+
+    messages[channels.length] = []
+    channels.push({
+        'id' : channels.length,
+        'name' : 'PM',
+        'private': true,
+        'users' : [email, email2]
+    });
+
+    res.json(true);
+})
+
 io.on('connection', function (socket) {
     socket.on('subscribe', function(channel) { 
         socket.join(channel); 
@@ -58,7 +88,7 @@ io.on('connection', function (socket) {
 
     socket.on('message', function (obj) {
         var channel = obj.channel
-
+        console.log(channel)
         msg = {
             id : uuid.v1(),
             message : obj.message,

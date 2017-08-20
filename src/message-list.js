@@ -58,7 +58,7 @@ class MessagesList extends React.Component {
             <Message key={message.id} message={message} email={this.props.email}/>
           )
         }
-        <div style={{ float: "left", clear: "both" }} ref="bottommsg">
+        <div ref="bottommsg">
         </div>
       </div>
     );

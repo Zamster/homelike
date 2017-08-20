@@ -34,7 +34,6 @@ class Input extends React.Component {
 
   fileDidSelect(e) {
     const file = e.target.files[0]
-    console.log(file)
 
     var data = new FormData();
     data.append('image', file);
@@ -42,7 +41,8 @@ class Input extends React.Component {
 
     axios.post('/upload', data).then(res => {
       this.setState({ url: res.data })
-      console.log(this.state)
+      // sent automatically
+      this.sendMessage()
     })
   }
 
@@ -57,7 +57,7 @@ class Input extends React.Component {
     }
 
     socket.emit('message', obj);
-    this.setState({ message: '' })
+    this.setState({ message: '', url : '' })
 
     return false
   }
