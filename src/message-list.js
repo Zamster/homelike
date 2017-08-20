@@ -55,7 +55,7 @@ class MessagesList extends React.Component {
       <div className="message-list">
         {
           this.state.messages.map((message) =>
-            <Message key={message.id} message={message} />
+            <Message key={message.id} message={message} email={this.props.email}/>
           )
         }
         <div style={{ float: "left", clear: "both" }} ref="bottommsg">

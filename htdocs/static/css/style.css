@@ -4,8 +4,33 @@
 
 #app {}
 
+.login {
+    background-color: #2c577d;
+    color: #fff;
+    height: 100vh;
+    text-align: center;
+    padding-top: 200px;
+}
+
+.login-box {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+
+.login-box h2 {
+    margin-bottom: 30px;
+}
+
+.btn-login {
+    margin-top: 20px;
+    background: #449d44;
+    color: #fff;
+    border-radius: 0;
+}
+
 .chat-list {
-    width: 280px;
+    width: 230px;
     position: fixed;
     top: 0;
     left: 0;
@@ -19,7 +44,12 @@
 .app-name {
     padding: 10px;
     text-align: center;
-    border-bottom: 1px solid #566474;    
+    border-bottom: 1px solid #566474;
+}
+
+.app-name h4 {
+    margin-top: 20px;
+    font-size: 13px;
 }
 
 a,
@@ -51,7 +81,7 @@ ul.channels li a:hover {
 }
 
 .chat-detail {
-    width: calc(100% - 280px);
+    width: calc(100% - 230px);
     background: #f1f2f7;
     min-height: 100vh;
     transition: all 0.1s;
@@ -64,7 +94,7 @@ ul.channels li a:hover {
     height: 60px;
     background: #f5f5f5;
     padding: 20px;
-    border-bottom: 1px solid #566474;
+    border: 1px solid rgba(0, 0, 0, .15);
 }
 
 .message-list {
@@ -77,20 +107,53 @@ ul.channels li a:hover {
 
 .chat-input {
     background: #f5f5f5;
-    padding: 20px;
+    padding: 20px 20px 40px 20px;
     position: absolute;
     bottom: 0;
     right: 0;
+    border-top: 1px solid rgba(0, 0, 0, .15);
 }
 
-.message{
+.message {
     margin-top: 20px;
     margin-right: 10px;
     padding: 10px;
-    background: #fff;
 }
 
-.ts{
+.message p {
+    margin-top: 10px;
+    font-size: 13px;
+    margin-bottom: 5px;
+}
+
+.message-body {
+    background: #fff;
+
+}
+
+.right-align {
+    text-align: right;
+}
+
+.email {
     font-size: 12px;
     color: #6a737c;
+    margin-bottom: 10px;
+}
+
+.ts {
+    font-size: 11px;
+    color: #6a737c;
+}
+
+.btn-green {
+    background: #449d44;
+    color: #fff;
+}
+
+.btn-file {
+    position: absolute;
+    left: 20px;
+    bottom: 5px;
+    height: 30px;
 }

@@ -4,6 +4,8 @@ var path = require('path');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var uuid = require('uuid');
+var multer  = require('multer')
+var upload = multer({ dest: './htdocs/static/uploads/' })
 
 var messages = [];
 for (var i = 0; i < 10; i++) {
@@ -40,6 +42,11 @@ app.get('/messages', function (req, res) {
     res.json(messages[channel]);
 })
 
+app.post('/upload', upload.single('image'), function (req, res, next) {
+    var url = '/static/uploads/' + req.file.filename;
+    res.json(url);
+})
+
 io.on('connection', function (socket) {
     socket.on('subscribe', function(channel) { 
         socket.join(channel); 
@@ -55,6 +62,8 @@ io.on('connection', function (socket) {
         msg = {
             id : uuid.v1(),
             message : obj.message,
+            email: obj.email,
+            img : obj.url,
             ts : new Date().toUTCString()
         }
 
