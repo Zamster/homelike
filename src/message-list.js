@@ -16,6 +16,7 @@ class MessagesList extends React.Component {
       messages = messages.concat(obj);
       this.setState({ messages: messages })
     })
+    
   }
 
   componentWillUpdate(nextProps, nextState) {

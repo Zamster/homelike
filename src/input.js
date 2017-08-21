@@ -8,12 +8,6 @@ class Input extends React.Component {
       url: '',
       message: ''
     }
-
-    this.btnDidClick = this.btnDidClick.bind(this);
-    this.textDidChange = this.textDidChange.bind(this);
-    this.keyDidPress = this.keyDidPress.bind(this);
-    this.fileDidSelect = this.fileDidSelect.bind(this);
-
   }
 
   textDidChange(e) {
@@ -65,9 +59,9 @@ class Input extends React.Component {
   render() {
     return (
       <div className="input-group chat-input">
-        <input type="text" className="form-control input-sm" value={this.state.message} onKeyPress={this.keyDidPress} onChange={this.textDidChange} />
-        <button className="btn btn-green" onClick={this.btnDidClick}>Send</button>
-        <input type="file" name="image" className="form-control-file btn-file" onChange={this.fileDidSelect} />
+        <input type="text" className="form-control input-sm" value={this.state.message} onKeyPress={this.keyDidPress.bind(this)} onChange={this.textDidChange.bind(this)} />
+        <button className="btn btn-green" onClick={this.btnDidClick.bind(this)}>Send</button>
+        <input type="file" name="image" className="form-control-file btn-file" onChange={this.fileDidSelect.bind(this)} />
       </div>
     );
   }

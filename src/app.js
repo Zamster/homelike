@@ -10,17 +10,27 @@ import Gravatar from 'react-gravatar';
 class App extends React.Component {
   constructor(props) {
     super(props);
+    
     this.state = {
       email: 'zamster@163.com',
       login: false,
       channels: [],
-      selected: 1,
+      selected: 0,
       socket: io()
     }
-    this.state.socket.emit('subscribe', 1)
-    this.handleSelected = this.handleSelected.bind(this);
-    this.loginDidClick = this.loginDidClick.bind(this);
-    this.emailDidChange = this.emailDidChange.bind(this);
+
+    // default channel
+    this.state.socket.emit('subscribe', this.state.selected)
+
+    this.state.socket.on('newPrivate', (obj) => {
+      axios.get('/channels', {
+        params: {
+          email: this.state.email
+        }
+      }).then(res => {
+        this.setState({ channels: res.data })
+      })
+    })
   }
 
   componentDidMount() {
@@ -42,6 +52,8 @@ class App extends React.Component {
     e.preventDefault();
     this.setState({ login: true })
 
+    this.state.socket.emit('login', this.state.email)
+    
     axios.get('/channels', {
       params: {
         email: this.state.email
@@ -58,8 +70,8 @@ class App extends React.Component {
         <div className="login">
           <form className="login-box">
             <h2>Please sign in</h2>
-            <input id="inputEmail" className="form-control" placeholder="Email address" type="email" value={this.state.email} onChange={this.emailDidChange} />
-            <button className="btn btn-login btn-block" onClick={this.loginDidClick}>Sign in</button>
+            <input id="inputEmail" className="form-control" placeholder="Email address" type="email" value={this.state.email} onChange={this.emailDidChange.bind(this)} />
+            <button className="btn btn-login btn-block" onClick={this.loginDidClick.bind(this)}>Sign in</button>
           </form>
         </div>
       )
@@ -72,7 +84,7 @@ class App extends React.Component {
               <h4>{this.state.email}</h4>
             </div>
 
-            <Channels channels={this.state.channels} selected={this.state.selected} handleSelected={this.handleSelected} email={this.state.email}/>
+            <Channels channels={this.state.channels} selected={this.state.selected} handleSelected={this.handleSelected.bind(this)} email={this.state.email}/>
 
             <hr/>
           </div>
