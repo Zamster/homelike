@@ -5,11 +5,12 @@ import io from 'socket.io-client'
 
 class Message extends React.Component {
   
+  // new private channel
   newPrivate(email) {
     const socket = io()
-    socket.emit('newPrivate', {
-      email1: email,
-      email2: this.props.email
+    socket.emit('private', {
+      from: email,
+      to: this.props.email
     })
   }
 
@@ -38,7 +39,6 @@ class Message extends React.Component {
 
           <div className="col-md-1">
               <Gravatar email={this.props.message.email} />
-              <a href="#" selected onClick={this.newPrivate.bind(this, this.props.message.email)} > PM </a>
           </div>
         </div>
       )
@@ -47,7 +47,9 @@ class Message extends React.Component {
         <div className="row message">
           <div className="col-md-1">
               <Gravatar email={this.props.message.email} />
-              <a href="#" selected onClick={this.newPrivate.bind(this, this.props.message.email)} > PM </a>
+              <p>
+              <a href="#" selected onClick={this.newPrivate.bind(this, this.props.message.email)} > <img src="/static/img/msg.png" /> </a>
+            </p>
           </div>
           <div className="col-md-11 message-body">
             <span className="email">{this.props.message.email}</span>

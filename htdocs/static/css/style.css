@@ -36,7 +36,7 @@
     left: 0;
     height: 100vh;
     z-index: 999;
-    background: #2a3542;
+    background: #2c577d;
     color: #fff;
     transition: all 0.1s;
 }
@@ -44,7 +44,7 @@
 .app-name {
     padding: 10px;
     text-align: center;
-    border-bottom: 1px solid #566474;
+    border-bottom: 1px solid #2469A6;
 }
 
 .app-name h4 {

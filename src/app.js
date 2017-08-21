@@ -12,17 +12,18 @@ class App extends React.Component {
     super(props);
     
     this.state = {
-      email: 'zamster@163.com',
+      email: 'foo@bar.com',
       login: false,
       channels: [],
       selected: 0,
       socket: io()
     }
 
-    // default channel
+    // subscribe channel 0 by default
     this.state.socket.emit('subscribe', this.state.selected)
 
-    this.state.socket.on('newPrivate', (obj) => {
+    // private channel
+    this.state.socket.on('private', (obj) => {
       axios.get('/channels', {
         params: {
           email: this.state.email
@@ -38,6 +39,7 @@ class App extends React.Component {
   }
 
   handleSelected(id) {
+    // subscribe to different channels
     this.state.socket.emit('unsubscribe', this.state.selected)
     this.state.socket.emit('subscribe', id)
 
@@ -50,10 +52,12 @@ class App extends React.Component {
 
   loginDidClick(e) {
     e.preventDefault();
+    
+    // logged in
     this.setState({ login: true })
-
     this.state.socket.emit('login', this.state.email)
     
+    // get participated channels
     axios.get('/channels', {
       params: {
         email: this.state.email
@@ -85,13 +89,11 @@ class App extends React.Component {
             </div>
 
             <Channels channels={this.state.channels} selected={this.state.selected} handleSelected={this.handleSelected.bind(this)} email={this.state.email}/>
-
-            <hr/>
           </div>
 
           <div className="chat-detail">
             <div className="header">
-              You are in Channel {this.state.selected}
+              You are in {this.state.selected}
             </div>
 
             <div className="container-fluid">

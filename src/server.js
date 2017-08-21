@@ -7,6 +7,7 @@
 
 var express = require('express');
 var app = express();
+
 var path = require('path');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
@@ -28,7 +29,8 @@ for (var i = 0; i < 5; i++) {
     channels.push({
         'id' : i,
         'name' : 'channel' + i,
-        'private': false
+        'private': false,
+        'users' : []
     });
 }
 
@@ -43,7 +45,7 @@ app.get('/', function (req, res) {
     res.sendFile(path.join(__dirname, '../htdocs/index.html'));
 })
 
-// channels
+// list all channels
 app.get('/channels', function (req, res) {
     data = []
     var email = req.query.email;
@@ -53,6 +55,7 @@ app.get('/channels', function (req, res) {
             data.push(channels[i])
         } else {
             if (channels[i].users[0] == email || channels[i].users[1] == email) {
+                // channel display name
                 channels[i].name = channels[i].users[0] == email ? channels[i].users[1] : channels[i].users[0]
                 data.push(channels[i])                
             }
@@ -63,24 +66,23 @@ app.get('/channels', function (req, res) {
 })
 
 
-// messages
+// list all messages from a channel
 app.get('/messages', function (req, res) {
     var channel = req.query.id;
     res.json(messages[channel]);
 })
 
+// image upload
 app.post('/upload', upload.single('image'), function (req, res, next) {
     var url = '/static/uploads/' + req.file.filename;
     res.json(url);
 })
-
 
 // socket io
 io.on('connection', function (socket) {
 
     socket.on('login', function(email) { 
         users[email] = socket;
-        console.log(users);
     })
 
     socket.on('subscribe', function(channel) { 
@@ -107,23 +109,38 @@ io.on('connection', function (socket) {
         io.sockets.in(channel).emit('message', msg);
     })
 
-    socket.on('newPrivate', function(obj) {  
-        var email = obj.email1;
-        var email2 = obj.email2;
-    
-        messages[channels.length] = []
+    // create private message chennel
+    socket.on('private', function(obj) {
 
-        var privateChannel = {
-            'id' : channels.length,
-            'name' : 'PM',
-            'private': true,
-            'users' : [email, email2]
+        var from = obj.from;
+        var to = obj.to;
+
+        
+        // only one private channel between 2 users
+        var found = false;
+        for (var i = 0; i < channels.length; i++) {
+            var element = channels[i];
+            if (element['users'].indexOf(from) != -1 && element['users'].indexOf(to) != -1 ) {
+                found = true;
+            }
         }
 
-        channels.push(privateChannel);
+        if ( !found ) {
+            messages[channels.length] = []
+            
+            var privateChannel = {
+                'id' : channels.length,
+                'name' : 'PM',
+                'private': true,
+                'users' : [from, to]
+            }
+    
+            channels.push(privateChannel);
+    
+            users[from].emit('private');
+            users[to].emit('private');
+        }
 
-        users[email].emit('newPrivate');
-        users[email2].emit('newPrivate');
     })
 
 });
