@@ -10,7 +10,7 @@ class MessagesList extends React.Component {
       messages: []
     }
 
-    // 客户端监控发送消息
+    // incomming socket io message
     this.props.socket.on('message', (obj) => {
       let messages = this.state.messages;
       messages = messages.concat(obj);

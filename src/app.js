@@ -16,7 +16,8 @@ class App extends React.Component {
       login: false,
       channels: [],
       selected: 0,
-      socket: io()
+      socket: io(),
+      hideList: false
     }
 
     // subscribe channel 0 by default
@@ -65,13 +66,16 @@ class App extends React.Component {
     }).then(res => {
       this.setState({ channels: res.data })
     })
+  }
 
+  toggleList() {
+    this.setState({ hideList: !this.state.hideList })
   }
 
   render() {
     if (!this.state.login) {
       return (
-        <div className="login">
+        <div className="container-fluid login">
           <form className="login-box">
             <h2>Please sign in</h2>
             <input id="inputEmail" className="form-control" placeholder="Email address" type="email" value={this.state.email} onChange={this.emailDidChange.bind(this)} />
@@ -80,9 +84,12 @@ class App extends React.Component {
         </div>
       )
     } else {
+      const listHide = this.state.hideList ? "list-hide" : ""
+      const detailFull = this.state.hideList ? "detail-full" : ""
+      
       return (
         <div>
-          <div className="chat-list">
+          <div id="chat-list" className={listHide}>
             <div className="app-name">
               <Gravatar email={this.state.email} />
               <h4>{this.state.email}</h4>
@@ -91,9 +98,9 @@ class App extends React.Component {
             <Channels channels={this.state.channels} selected={this.state.selected} handleSelected={this.handleSelected.bind(this)} email={this.state.email}/>
           </div>
 
-          <div className="chat-detail">
+          <div id="chat-detail" className={detailFull}>
             <div className="header">
-              You are in {this.state.selected}
+              <button type="button" className="btn btn-toggle" onClick={this.toggleList.bind(this)}><span>Toggle</span></button>
             </div>
 
             <div className="container-fluid">

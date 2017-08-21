@@ -26,7 +26,7 @@ class Message extends React.Component {
     if (this.props.email == this.props.message.email) {
       return (
         <div className="row message">
-          <div className="col-md-11 message-body right-align">
+          <div className="col-xs-8 col-sm-11 message-body right-align">
             <span className="email">{this.props.message.email}</span>
             <p>
               {this.props.message.message}
@@ -37,7 +37,7 @@ class Message extends React.Component {
             </span>
           </div>
 
-          <div className="col-md-1">
+          <div className="col-xs-4 col-sm-1">
               <Gravatar email={this.props.message.email} />
           </div>
         </div>
@@ -45,13 +45,13 @@ class Message extends React.Component {
     } else {
       return (
         <div className="row message">
-          <div className="col-md-1">
+          <div className="col-xs-4 col-sm-1">
               <Gravatar email={this.props.message.email} />
               <p>
-              <a href="#" selected onClick={this.newPrivate.bind(this, this.props.message.email)} > <img src="/static/img/msg.png" /> </a>
+              <a href="#" onClick={this.newPrivate.bind(this, this.props.message.email)} > <img src="/static/img/msg.png" /> </a>
             </p>
           </div>
-          <div className="col-md-11 message-body">
+          <div className="col-xs-8 col-sm-11 message-body">
             <span className="email">{this.props.message.email}</span>
             <p>
               {this.props.message.message}
