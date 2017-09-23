@@ -1,11 +1,11 @@
 
 For whom may be interested in React.js, Express and Socket.io
 
+![Preview](https://raw.githubusercontent.com/zamster/nodejs-react-socketio/master/preview.png "Preview")
+
 To run this example:
 
 1. Clone source code
-
-    `git clone https://github.com/zamster/homelike.git`
 
 2. on macOS please open Terminal and navigate to the repo folder run:  
 
